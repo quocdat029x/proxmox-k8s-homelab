@@ -141,9 +141,10 @@ openssl req -x509 -nodes -newkey rsa:2048 \
 
 ```routeros
 /ip firewall nat
-add action=dst-nat chain=dstnat dst-address-list=DDNS dst-port=443 protocol=tcp to-addresses=192.168.1.253   # NPM
-add action=dst-nat chain=dstnat dst-address-list=DDNS dst-port=6690 protocol=tcp to-addresses=192.168.1.254  # Synology Drive
-add action=dst-nat chain=dstnat dst-address-list=DDNS dst-port=51820 in-interface=WAN_VIETEL protocol=udp to-addresses=192.168.1.254 to-ports=51820
+# Only the app-exposure rule you need for this stack:
+add action=dst-nat chain=dstnat dst-address-list=DDNS dst-port=443 protocol=tcp to-addresses=192.168.1.253   # edge proxy
+# Forward any other service (VPN, NAS sync, ...) at your own risk — every extra
+# dst-nat widens your home network's attack surface.
 ```
 
 The forward chain ends with a catch-all drop, so each dst-nat also needs a matching

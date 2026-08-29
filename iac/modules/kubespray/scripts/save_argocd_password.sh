@@ -18,10 +18,13 @@ else
     exit 1
 fi
 
-# Save to Vault using Vault API
+# Save to Vault using Vault API.
+# The JSON body (which contains the password) is piped via stdin, so neither
+# the password nor the payload shows up in the process list / ps output.
+printf '{ "data": { "password": "%s" } }' "$ARGOCD_PASSWORD" | \
 curl -s --header "X-Vault-Token: $VAULT_TOKEN" \
     --request POST "$VAULT_ADDR/v1/$SECRET_PATH" \
-    --data "{ \"data\": { \"password\": \"$ARGOCD_PASSWORD\" } }" 2>/dev/null
+    --data @- 2>/dev/null
 
 if [ $? -eq 0 ]; then
     echo "Saved ArgoCD password to Vault at: $SECRET_PATH"

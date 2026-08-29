@@ -41,7 +41,7 @@ Full traffic-path walkthrough with live header evidence: [docs/expose-architectu
 | `iac/scripts/HCVault/` | Install + TLS-cert renewal for Vault on a Synology NAS (docker-compose) |
 | `iac/scripts/InitialSetupTFUser/` | One-time `pveum` bootstrap of a least-privilege Proxmox TF user |
 | `scripts/admin/` | `gen-ssh-config.sh` (ssh via bastion) + `k8s-tunnel.sh` (kubectl via tunnel) |
-| `docs/` | Architecture map, exposure walkthrough, hardening lab notes |
+| `docs/` | Architecture map + exposure walkthrough with troubleshooting |
 
 ## Prerequisites
 

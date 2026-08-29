@@ -38,7 +38,7 @@ resource "proxmox_virtual_environment_file" "hook_script" {
         - echo \"SUBSYSTEM==\\\"cpu\\\", ACTION==\\\"add\\\", TEST==\\\"online\\\", ATTR{online}==\\\"0\\\", ATTR{online}=\\\"1\\\"\" > /lib/udev/rules.d/80-hotplug-cpu.rules
         - apt update
         - apt install -y qemu-guest-agent net-tools
-        - timedatectl set-timezone America/Toronto
+        - timedatectl set-timezone ${var.timezone}
         - systemctl enable qemu-guest-agent
         - systemctl start qemu-guest-agent
         - echo "done" > /tmp/cloud-config.done

@@ -6,6 +6,8 @@ services:
     environment:
       VAULT_ADDR: http://127.0.0.1:8200
     ports:
+      # Prefer binding to a specific LAN IP, e.g. "192.168.1.254:8200:8200",
+      # so Vault is not published on every host interface.
       - "8200:8200"
     volumes:
       - /volume2/Data/vault:/vault:rw
