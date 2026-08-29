@@ -71,12 +71,14 @@ else
     echo "Docker is already installed."
 fi
 
-mkdir -p $kubespray_data_dir
-rm -rf $kubespray_data_dir/*
-chmod 700 $kubespray_data_dir
+mkdir -p "$kubespray_data_dir"
+# `$$` is a terraform templatefile escape, rendered to `$` at deploy time.
+# shellcheck disable=SC1083
+rm -rf "$${kubespray_data_dir:?}"/*
+chmod 700 "$kubespray_data_dir"
 
-mkdir -p $expose_services_dir
-rm -rf $expose_services_dir/*
-chmod 700 $expose_services_dir
+mkdir -p "$expose_services_dir"
+rm -rf "$${expose_services_dir:?}"/*
+chmod 700 "$expose_services_dir"
 
 echo "=== Kubespray Setup Script Complete ==="

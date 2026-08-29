@@ -32,30 +32,30 @@ variable "proxmox_provider_version" {
   type = string
 }
 variable "root_domain_name" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "ca_cert" {
   description = "Path to the CA certificate"
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 variable "vault_server_address" {
   description = "vaul server address"
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 variable "virtual_environment_endpoint" {
   description = "virtual_environment_endpoint"
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 variable "cpu_cores" {
-  type = string
+  type    = string
   default = "1"
 }
 variable "disk_size" {
-  type = string
+  type    = string
   default = "20"
 }
 # variable "internal_net_subnet_cidr" {

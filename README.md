@@ -1,4 +1,8 @@
 # proxmox-k8s-homelab
+[![CI](https://github.com/quocdat029x/proxmox-k8s-homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/quocdat029x/proxmox-k8s-homelab/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![OpenTofu](https://img.shields.io/badge/OpenTofu-1.x-7B42BC?logo=opentofu&logoColor=white)](https://opentofu.org)
+
 
 Self-hosted Kubernetes homelab on **Proxmox VE**, fully provisioned as code:
 
@@ -63,7 +67,7 @@ USERNAME=you iac/scripts/HCVault/RenewVaultCert.sh --deploy
 
 # 2. Configure the cluster
 cp iac/prod/terraform.tfvars.example iac/prod/terraform.tfvars   # fill in your values
-cp iac/prod/ssh/id_ed25519.pub iac/prod/ssh/                     # your public key
+cp ~/.ssh/id_ed25519.pub iac/prod/ssh/                        # your public key (never the private one)
 
 # 3. Plan & apply (creds are read from Vault at plan time — nothing in git)
 tofu -chdir iac/prod init
@@ -102,6 +106,11 @@ Found something? See [SECURITY.md](SECURITY.md).
 | bpg/proxmox provider | 0.78.0 |
 | hashicorp/vault provider | 4.5.0 |
 | VM image | Ubuntu 24.04 (noble) cloud image |
+
+## Contributing & history
+
+PRs welcome — read [CONTRIBUTING.md](CONTRIBUTING.md) (local checks mirror CI)
+first. Changes are tracked in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

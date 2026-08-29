@@ -32,23 +32,23 @@ variable "vm_name" {
   type = string
 }
 variable "image_file_id" {
-  type = string
+  type    = string
   default = ""
 }
 variable "cpu_cores" {
-  type = string
+  type    = string
   default = "1"
 }
 variable "disk_size" {
-  type = string
+  type    = string
   default = "20"
 }
 variable "template" {
-  type = string
+  type    = string
   default = false
 }
 variable "image" {
-  type = string
+  type    = string
   default = "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
 }
 variable "vm_net_subnet_cidr" {
@@ -56,7 +56,7 @@ variable "vm_net_subnet_cidr" {
   description = "Address prefix for the internal network (e.g., 192.168.1.0/24)"
 }
 variable "node_count" {
-  type = number
+  type    = number
   default = 1
 }
 variable "vm_host_number" {

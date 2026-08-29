@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.78.0"
     }
     vault = {
@@ -28,7 +28,7 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
 
 # Create a template VM from the cloud image
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name        = "${var.vm_name}"
+  name        = var.vm_name
   node_name   = "proxmox"
   description = "Contact point: ${var.owner}\nManaged by Terraform"
   tags        = ["template", var.environment]

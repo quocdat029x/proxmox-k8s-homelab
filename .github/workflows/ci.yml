@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: fmt / validate / shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: latest
+
+      - name: tofu fmt
+        run: tofu fmt -check -recursive iac
+
+      - name: tofu validate (iac/prod)
+        run: |
+          tofu -chdir=iac/prod init -backend=false
+          tofu -chdir=iac/prod validate
+
+      - name: tofu validate (iac/vault-config)
+        run: |
+          tofu -chdir=iac/vault-config init -backend=false
+          tofu -chdir=iac/vault-config validate
+
+      # SC1083/SC2154: iac/modules/kubespray/scripts/*.sh are terraform
+      # `templatefile()` sources — `$$` escapes and unassigned-looking vars
+      # are filled in at render time, not runtime.
+      - name: shellcheck
+        run: shellcheck -S warning -e SC1083,SC2154 $(git ls-files '*.sh')
+
+  gitleaks:
+    name: secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

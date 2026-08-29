@@ -1,11 +1,11 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.78.0"
     }
     vault = {
-      source = "hashicorp/vault"
+      source  = "hashicorp/vault"
       version = "4.5.0"
     }
   }
@@ -22,11 +22,11 @@ provider "proxmox" {
   ssh {
     username = module.secret_data.secret_data.data.master_username
     password = module.secret_data.secret_data.data.master_password
-    agent = true
+    agent    = true
   }
 }
 
 provider "vault" {
-  address = "https://${var.vault_server_address}:8200"
+  address      = "https://${var.vault_server_address}:8200"
   ca_cert_file = var.ca_cert
 }

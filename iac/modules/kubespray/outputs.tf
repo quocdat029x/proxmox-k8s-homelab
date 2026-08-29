@@ -1,7 +1,7 @@
 output "vm_ipv4_address" {
   # value = proxmox_virtual_environment_vm.ubuntu_vm[count.index].ipv4_addresses
-  value = [for vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.ipv4_addresses]
-  depends_on = [proxmox_virtual_environment_vm.ubuntu_vm,null_resource.wait_for_ip]
+  value      = [for vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.ipv4_addresses]
+  depends_on = [proxmox_virtual_environment_vm.ubuntu_vm, null_resource.wait_for_ip]
 }
 output "vm_list" {
   value = [

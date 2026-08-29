@@ -1,11 +1,11 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.78.0"
     }
     vault = {
-      source = "hashicorp/vault"
+      source  = "hashicorp/vault"
       version = "4.5.0"
     }
   }
@@ -20,7 +20,7 @@ resource "proxmox_virtual_environment_file" "hook_script" {
   datastore_id = "local"
   node_name    = "proxmox"
   # Hook scripts must be executable, otherwise the Proxmox VE API will reject the configuration for the VM/CT.
-  file_mode    = "0700"
+  file_mode = "0700"
   source_raw {
     data = <<-EOF
     #cloud-config

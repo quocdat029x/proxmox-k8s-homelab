@@ -13,8 +13,8 @@ variable "vault_ca_cert" {
 
 # Secret values (sensitive — set in terraform.tfvars, which is gitignored)
 variable "cloudflare_api_token" {
-  type      = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "Cloudflare API token (Zone.Zone:Read, Zone.DNS:Edit) for external-dns. Stored at proxmox/cloudflare."
 }
 
@@ -29,7 +29,7 @@ variable "argocd_repo_username" {
 }
 
 variable "argocd_repo_pat" {
-  type      = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "Azure DevOps PAT (Code:Read) for the InfrastructureGitOps repo. Stored at proxmox/argocd."
 }
