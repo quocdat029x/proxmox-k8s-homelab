@@ -1,0 +1,3 @@
+# Copy to terraform.tfvars and fill with real values (terraform.tfvars is gitignored).
+cloudflare_api_token = "cfut_xxx"
+argocd_repo_pat      = "AzureDevOpsPATxxx"

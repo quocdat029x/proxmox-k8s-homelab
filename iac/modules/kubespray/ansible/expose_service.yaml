@@ -1,0 +1,108 @@
+- name: Setup Bastion Host with Caddy & Firewall
+  hosts: bastion
+  become: yes
+  vars:
+    caddy_config_path: "/etc/caddy/Caddyfile"
+    metallb_ip: "10.0.1.88"
+    caddy_cert_path: "/etc/caddy/cert.pem"
+    caddy_key_path: "/etc/caddy/key.pem"
+  ignore_unreachable: true
+  ignore_errors: true
+  tasks:
+    - name: Install necessary packages
+      apt:
+        name:
+          - ufw
+          - curl
+          - vim
+        state: present
+        update_cache: yes
+
+    - name: Add Caddy Cloudsmith GPG key
+      shell: |
+        curl -fsSL https://dl.cloudsmith.io/public/caddy/stable/gpg.key \
+          | gpg --dearmor --yes -o /usr/share/keyrings/caddy-keyring.gpg
+      args:
+        executable: /bin/bash
+        creates: /usr/share/keyrings/caddy-keyring.gpg
+
+    - name: Add Caddy apt repository
+      copy:
+        dest: /etc/apt/sources.list.d/caddy-stable.list
+        content: |
+          deb [signed-by=/usr/share/keyrings/caddy-keyring.gpg] https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main
+
+    - name: Install Caddy
+      apt:
+        name: caddy
+        state: present
+        update_cache: yes
+
+    - name: Ensure Caddy data/config dirs exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: caddy
+        group: caddy
+        mode: "0755"
+      with_items:
+        - /var/log/caddy
+
+    - name: Generate self-signed TLS cert (Cloudflare "Full" accepts it)
+      shell: |
+        openssl req -x509 -nodes -newkey rsa:2048 \
+          -keyout {{ caddy_key_path }} -out {{ caddy_cert_path }} -days 3650 \
+          -subj "/CN=ingress-bastion" \
+          -addext "subjectAltName=DNS:localhost,IP:127.0.0.1,IP:192.168.1.40,IP:10.0.1.40"
+        chown caddy:caddy {{ caddy_cert_path }} {{ caddy_key_path }}
+        chmod 644 {{ caddy_cert_path }}
+        chmod 600 {{ caddy_key_path }}
+      args:
+        executable: /bin/bash
+        creates: "{{ caddy_cert_path }}"
+
+    - name: Setup Caddy reverse proxy (matches verified running config)
+      copy:
+        dest: "{{ caddy_config_path }}"
+        content: |
+          :443 {
+              tls {{ caddy_cert_path }} {{ caddy_key_path }}
+              log {
+                  output file /var/log/caddy/access.log
+              }
+              reverse_proxy {{ metallb_ip }}:80 {
+                  header_up Host {http.request.host}
+              }
+          }
+
+          :80 {
+              log {
+                  output file /var/log/caddy/access.log
+              }
+              reverse_proxy {{ metallb_ip }}:80 {
+                  header_up Host {http.request.host}
+              }
+          }
+      notify: Restart Caddy
+
+    - name: Enable & Start Caddy
+      systemd:
+        name: caddy
+        state: started
+        enabled: yes
+
+    - name: Allow SSH/HTTP/HTTPS in UFW (UFW itself left disabled — enable manually after verifying access)
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      with_items:
+        - "22"
+        - "80"
+        - "443"
+
+  handlers:
+    - name: Restart Caddy
+      systemd:
+        name: caddy
+        state: restarted
