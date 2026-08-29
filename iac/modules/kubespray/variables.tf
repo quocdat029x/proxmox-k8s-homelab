@@ -145,8 +145,8 @@ variable "argocd_version" {
 }
 variable "location" {
   type        = string
-  description = "The city or region where the cluster is provisioned"
-  default     = "cantho"
+  description = "A short label for where the cluster is provisioned (used in the cluster name)"
+  default     = "dc1"
 }
 variable "env_name" {
   type        = string
@@ -177,7 +177,8 @@ variable "worker_vm_list" {
   description = "List of worker VMs"
 }
 variable "ssh_private_key" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "control_plane_ip" {
@@ -194,6 +195,7 @@ variable "vault_addr" {
 
 variable "vault_token" {
   type        = string
+  sensitive   = true
   description = "Vault authentication token"
   default     = ""
 }

@@ -19,11 +19,10 @@ id_rsa*
 id_ed25519*
 id_ecdsa*
 *.pub
-ssh/*
+**/ssh/*
 
 # Keep the folder docs
-!ssh/README.md
-!**/README.md
+!**/ssh/README.md
 
 # --- Plans / overrides ---
 *.tfplan

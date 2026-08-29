@@ -73,5 +73,6 @@ with header evidence: [expose-architecture.md](expose-architecture.md).
 
 ## Learning path
 
-- `docs/expose-architecture.md` — full exposure chain, verified end-to-end.
-- `docs/labs/` — hardening walkthroughs (config hardening, module-by-module notes).
+- `docs/expose-architecture.md` — full exposure chain, verified end-to-end,
+  plus troubleshooting for each hop (Cloudflare → router → edge proxy →
+  Caddy → ingress).

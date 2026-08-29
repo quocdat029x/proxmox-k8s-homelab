@@ -5,6 +5,9 @@
 1. **No secrets in git.** Credentials live in HashiCorp Vault and are read at
    `plan` time. `.gitignore` rejects `*.tfstate*`, `*.tfvars` (except
    `*.tfvars.example`), `*.pem`, private SSH keys, and `.terraform/`.
+   **Terraform/OpenTofu state still contains secrets** (provider passwords,
+   per-VM passwords, the base64 SSH key): keep `terraform.tfstate` local or
+   encrypted at rest, and never copy it into git or shared storage.
 2. **Least privilege.** Terraform talks to Proxmox as `terraform-prov@pve`
    with a scoped role (see `iac/scripts/InitialSetupTFUser/`).
 3. **Network isolation.** The Kubernetes VNET is unrouted; the bastion is the
