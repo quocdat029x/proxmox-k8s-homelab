@@ -1,0 +1,21 @@
+#### COMMON ####
+prefix             = "homelab"
+project            = "lab"
+environment        = "prod"
+region             = "sea"
+region_code        = "hcm"
+responsible_party  = "you@example.com"
+owner              = "you@example.com"
+
+##### VAULT ####
+# Root domain your Proxmox + apps will live under (public DNS, Cloudflare or other)
+root_domain_name              = "example.com"
+# Path to the Vault TLS cert (regenerate via iac/scripts/HCVault/RenewVaultCert.sh)
+ca_cert                       = "../scripts/HCVault/volume2/Data/vault/file/vault-cert.pem"
+virtual_environment_endpoint  = "https://proxmox.example.com/api2/json"
+vault_server_address          = "192.168.1.254"
+vault_provider_version        = "4.5.0"
+proxmox_provider_version      = "0.78.0"
+
+# SSH key injected into every VM — copy your public key to ./ssh/id_ed25519.pub
+# (or change ssh_public_key_path). The PRIVATE key must never enter this repo.

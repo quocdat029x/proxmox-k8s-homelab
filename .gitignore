@@ -1,0 +1,42 @@
+# --- Terraform / OpenTofu ---
+.terraform/
+.terraform.tfstate.lock.info
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Real tfvars (keep the .example files)
+*.tfvars
+!*.tfvars.example
+
+# --- Keys & certificates: NEVER commit ---
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+id_ecdsa*
+*.pub
+ssh/*
+
+# Keep the folder docs
+!ssh/README.md
+!**/README.md
+
+# --- Plans / overrides ---
+*.tfplan
+*tfplan.json
+override.tf
+override.tf.json
+*_override.tf
+
+# --- Editors / OS / agents ---
+.idea/
+.vscode/
+.DS_Store
+.claude/
+.claude-flow/
+.serena/
+_bmad*/
