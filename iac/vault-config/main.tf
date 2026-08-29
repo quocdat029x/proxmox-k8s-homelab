@@ -39,7 +39,7 @@ resource "vault_mount" "proxmox" {
 
 # --- Policy granting read access to proxmox/* (used by ESO AppRole) ---
 resource "vault_policy" "read_secrets" {
-  name = "read-secrets"
+  name   = "read-secrets"
   policy = <<-EOT
     path "proxmox/data/*" {
       capabilities = ["read"]
@@ -70,9 +70,9 @@ resource "vault_approle_auth_backend_role" "eso" {
 # --- Secrets consumed by ESO (values from sensitive variables; set in terraform.tfvars) ---
 # external-dns Cloudflare token
 resource "vault_kv_secret_v2" "cloudflare" {
-  mount      = vault_mount.proxmox.path
-  name       = "cloudflare"
-  data_json  = jsonencode({ "api-token" = var.cloudflare_api_token })
+  mount     = vault_mount.proxmox.path
+  name      = "cloudflare"
+  data_json = jsonencode({ "api-token" = var.cloudflare_api_token })
 }
 
 # ArgoCD Azure DevOps repo credentials

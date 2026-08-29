@@ -1,25 +1,25 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.78.0"
     }
     vault = {
-      source = "hashicorp/vault"
+      source  = "hashicorp/vault"
       version = "4.5.0"
     }
   }
 }
 
 locals {
-  kubespray_data_dir = "$HOME/kubespray_data"
+  kubespray_data_dir  = "$HOME/kubespray_data"
   expose_services_dir = "$HOME/expose_services"
-  cluster_name = var.location != null ? "k8s-${var.env_name}-${var.location}-${var.cluster_number}" : "k8s-${var.env_name}-${var.cluster_number}"
-  cluster_fqdn = "${local.cluster_name}.${var.cluster_domain}"
+  cluster_name        = var.location != null ? "k8s-${var.env_name}-${var.location}-${var.cluster_number}" : "k8s-${var.env_name}-${var.cluster_number}"
+  cluster_fqdn        = "${local.cluster_name}.${var.cluster_domain}"
   setup_kubespray_script_content = templatefile(
     "${path.module}/scripts/setup_kubespray.sh",
     {
-      kubespray_data_dir = local.kubespray_data_dir,
+      kubespray_data_dir  = local.kubespray_data_dir,
       expose_services_dir = local.expose_services_dir,
     }
   )
@@ -36,10 +36,10 @@ locals {
     "${path.module}/scripts/save_argocd_password.sh",
     {
       kubespray_data_dir = local.kubespray_data_dir,
-      control_plane_ip = var.control_plane_ip,
-      vault_addr    = var.vault_addr
-      vault_token    = var.vault_token
-      secret_path = var.vault_secret_path
+      control_plane_ip   = var.control_plane_ip,
+      vault_addr         = var.vault_addr
+      vault_token        = var.vault_token
+      secret_path        = var.vault_secret_path
     }
   )
 
@@ -86,7 +86,7 @@ locals {
     "${path.module}/ansible/expose_service.yaml",
     {
       expose_services_dir = local.expose_services_dir,
-      kubespray_image    = var.kubespray_image
+      kubespray_image     = var.kubespray_image
     }
   )
 
@@ -98,24 +98,24 @@ data "local_file" "ssh_public_key" {
 
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name = "${var.vm_name}-${format("%02d", count.index)}"
-  count = var.create_kubespray_host ? 1 : 0
+  name            = "${var.vm_name}-${format("%02d", count.index)}"
+  count           = var.create_kubespray_host ? 1 : 0
   stop_on_destroy = true
-  node_name = "proxmox"
-  description = "Contact point: ${var.owner}\nManaged by Terraform"
-  tags = [var.environment]
-  template = var.template
+  node_name       = "proxmox"
+  description     = "Contact point: ${var.owner}\nManaged by Terraform"
+  tags            = [var.environment]
+  template        = var.template
   agent {
     enabled = true
     timeout = "30s"
   }
   cpu {
-    cores        = var.cpu_cores
-    type         = "x86-64-v2-AES"  # recommended for modern CPUs
+    cores = var.cpu_cores
+    type  = "x86-64-v2-AES" # recommended for modern CPUs
   }
   memory {
     dedicated = 2048
-    floating = 2048
+    floating  = 2048
   }
   clone {
     vm_id = var.template_id
@@ -142,7 +142,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   pool_id = var.resource_pool
 
   network_device {
-    bridge = "vmbr1"
+    bridge   = "vmbr1"
     firewall = false
   }
 }
@@ -155,9 +155,9 @@ module "vm_secret" {
 }
 
 module "user-data" {
-  source = "../user-data"
+  source       = "../user-data"
   ssh_filename = var.ssh_filename
-  vm_name = var.vm_name
+  vm_name      = var.vm_name
 }
 
 resource "null_resource" "wait_for_ip" {
@@ -193,12 +193,12 @@ resource "null_resource" "setup_kubespray" {
     type         = "ssh"
     user         = module.secret_data.infra_data.data.ssh_username
     private_key  = base64decode(var.ssh_private_key)
-    host = "${cidrhost(var.vm_net_subnet_cidr, var.vm_host_number + count.index + var.vm_host_offset)}"
-    port = 22
+    host         = cidrhost(var.vm_net_subnet_cidr, var.vm_host_number + count.index + var.vm_host_offset)
+    port         = 22
     bastion_host = module.secret_data.infra_data.data.bastion_ssh_ip
     bastion_user = module.secret_data.infra_data.data.bastion_ssh_user
     bastion_port = module.secret_data.infra_data.data.bastion_ssh_port
-    timeout = "45m"
+    timeout      = "45m"
   }
 
   depends_on = [
@@ -208,6 +208,6 @@ resource "null_resource" "setup_kubespray" {
 }
 
 module "secret_data" {
-  source = "../vault"
+  source      = "../vault"
   environment = var.environment
 }

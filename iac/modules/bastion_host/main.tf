@@ -1,11 +1,11 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.78.0"
     }
     vault = {
-      source = "hashicorp/vault"
+      source  = "hashicorp/vault"
       version = "4.5.0"
     }
   }
@@ -17,32 +17,32 @@ data "local_file" "ssh_public_key" {
 
 resource "null_resource" "wait_for_ip" {
   provisioner "local-exec" {
-    command = "sleep 30"  # Increase if needed
+    command = "sleep 30" # Increase if needed
   }
 
   depends_on = [proxmox_virtual_environment_vm.ubuntu_vm]
 }
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name = "${var.vm_name}-${format("%02d", count.index)}"
-  count = var.node_count
+  name            = "${var.vm_name}-${format("%02d", count.index)}"
+  count           = var.node_count
   stop_on_destroy = true
-  node_name = "proxmox"
-  description = "Contact point: ${var.owner}\nManaged by Terraform"
-  tags = [var.environment]
-  template = var.template
+  node_name       = "proxmox"
+  description     = "Contact point: ${var.owner}\nManaged by Terraform"
+  tags            = [var.environment]
+  template        = var.template
   agent {
     enabled = true
     timeout = "30s"
   }
   cpu {
-    cores        = var.cpu_cores
-    type         = "x86-64-v2-AES"  # recommended for modern CPUs
+    cores = var.cpu_cores
+    type  = "x86-64-v2-AES" # recommended for modern CPUs
     # hotplugged = 1
   }
 
   clone {
-    vm_id = var.template_id
+    vm_id        = var.template_id
     datastore_id = "local-lvm"
   }
   initialization {
@@ -105,7 +105,7 @@ module "vm_secret" {
 }
 
 module "user-data" {
-  source = "../user-data"
+  source       = "../user-data"
   ssh_filename = var.ssh_filename
-  vm_name = var.vm_name
+  vm_name      = var.vm_name
 }

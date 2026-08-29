@@ -1,11 +1,11 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.78.0"
     }
     vault = {
-      source = "hashicorp/vault"
+      source  = "hashicorp/vault"
       version = "4.5.0"
     }
   }
@@ -17,25 +17,25 @@ data "local_file" "ssh_public_key" {
 
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name = "${var.vm_name}-${format("%02d", count.index)}"
-  count = var.node_count
+  name            = "${var.vm_name}-${format("%02d", count.index)}"
+  count           = var.node_count
   stop_on_destroy = true
-  node_name = "proxmox"
-  description = "Contact point: ${var.owner}\nManaged by Terraform"
-  tags = [var.environment]
-  template = var.template
+  node_name       = "proxmox"
+  description     = "Contact point: ${var.owner}\nManaged by Terraform"
+  tags            = [var.environment]
+  template        = var.template
   agent {
     enabled = true
     timeout = "30s"
   }
   cpu {
-    cores        = var.cpu_cores
-    type         = "x86-64-v2-AES"  # recommended for modern CPUs
+    cores = var.cpu_cores
+    type  = "x86-64-v2-AES" # recommended for modern CPUs
     # hotplugged = 1
   }
   memory {
     dedicated = var.memory
-    floating = 2047
+    floating  = 2047
   }
 
   clone {
@@ -71,7 +71,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   pool_id = var.resource_pool
 
   network_device {
-    bridge = "vmbr1"
+    bridge   = "vmbr1"
     firewall = false
   }
 
@@ -85,7 +85,7 @@ module "vm_secret" {
 }
 
 module "user-data" {
-  source = "../user-data"
+  source       = "../user-data"
   ssh_filename = var.ssh_filename
-  vm_name = var.vm_name
+  vm_name      = var.vm_name
 }

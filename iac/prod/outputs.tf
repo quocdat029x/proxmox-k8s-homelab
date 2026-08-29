@@ -15,15 +15,15 @@ output "bastion_access" {
 
 output "control_plane_nodes" {
   description = "k8s control-plane nodes: { name, ip (internal vmbr1) }."
-  value = [for h in module.vm_k8s_control_plane.vm_list : { name = h.name, ip = h.ip }]
+  value       = [for h in module.vm_k8s_control_plane.vm_list : { name = h.name, ip = h.ip }]
 }
 
 output "worker_nodes" {
   description = "k8s worker nodes: { name, ip (internal vmbr1) }."
-  value = [for h in module.vm_k8s_worker.vm_list : { name = h.name, ip = h.ip }]
+  value       = [for h in module.vm_k8s_worker.vm_list : { name = h.name, ip = h.ip }]
 }
 
 output "kubespray_node" {
   description = "kubespray deployment host: { name, ip (internal vmbr1) }."
-  value = [for h in module.vm_k8s_kubespray.vm_list : { name = h.name, ip = try(h.ip[1][0], "") }]
+  value       = [for h in module.vm_k8s_kubespray.vm_list : { name = h.name, ip = try(h.ip[1][0], "") }]
 }

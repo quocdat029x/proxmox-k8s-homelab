@@ -1,0 +1,22 @@
+# Local mirrors of the CI checks (https://github.com/quocdat029x/proxmox-k8s-homelab/actions)
+# Prereqs: opentofu, gitleaks, shellcheck — see CONTRIBUTING.md.
+repos:
+  - repo: local
+    hooks:
+      - id: tofu-fmt
+        name: tofu fmt
+        entry: tofu fmt
+        language: system
+        files: \.tf$
+
+      - id: gitleaks
+        name: gitleaks (staged)
+        entry: gitleaks protect --staged --redact
+        language: system
+        pass_filenames: false
+
+      - id: shellcheck
+        name: shellcheck
+        entry: bash -c 'shellcheck -S warning -e SC1083,SC2154 "$@" || true; shellcheck -S error "$@"'
+        language: system
+        types: [shell]

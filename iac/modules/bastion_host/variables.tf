@@ -32,23 +32,23 @@ variable "vm_name" {
   type = string
 }
 variable "image_file_id" {
-  type = string
+  type    = string
   default = ""
 }
 variable "cpu_cores" {
-  type = string
+  type    = string
   default = "1"
 }
 variable "disk_size" {
-  type = string
+  type    = string
   default = "20"
 }
 variable "template" {
-  type = string
+  type    = string
   default = false
 }
 variable "image" {
-  type = string
+  type    = string
   default = ""
 }
 variable "vm_net_subnet_cidr" {

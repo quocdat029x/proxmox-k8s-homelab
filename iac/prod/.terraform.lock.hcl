@@ -6,6 +6,7 @@ provider "registry.opentofu.org/bpg/proxmox" {
   constraints = "0.78.0"
   hashes = [
     "h1:Ddkfmy2tiOJjhhvs3/tJe7ClW/UpUIMeEkyjNaG9p/8=",
+    "h1:wX5UujjV9u9gjl4GF6wo6/c6kmd7saq7jfPSfdRJ1/o=",
     "zh:0548c12a69bbd1008236eac860f7c9056b7028ccfab7bb144e0842baa1e13a60",
     "zh:1cbda45996f2176c0b63b411c2064cfd24c6d097bcf87125c5297499389c43f5",
     "zh:1ce237789f9762c461df99440b6d6d0228843b09d69603351571939186b57975",
@@ -27,6 +28,7 @@ provider "registry.opentofu.org/bpg/proxmox" {
 provider "registry.opentofu.org/hashicorp/local" {
   version = "2.9.0"
   hashes = [
+    "h1:rxomJjDwOo+YZ+WIPc25FqEgsz9orh/2MCyUcZmFjvw=",
     "h1:t0CMn/Rkwquw8l2yQ+O4ApzbMZfY2UazbsDnZygzACA=",
     "zh:13ef7ecd1e397ec5b20ea588508dd3e3b8d6c50d809ae76b079abf9dd8d02e4b",
     "zh:2190c9325980076489ce02b0f5dd2c0b91fc8711cefa99e714d8619a32827ad1",
@@ -49,6 +51,7 @@ provider "registry.opentofu.org/hashicorp/local" {
 provider "registry.opentofu.org/hashicorp/null" {
   version = "3.3.0"
   hashes = [
+    "h1:0r7+t8CqzjfBgHgEiJGBCw+McEUdRXliMdF+Hk29d8o=",
     "h1:mdu+qpyVmjDDLMrcL1JFy+cSyF58I3TFJwB5NssCZ58=",
     "zh:083dcc0bec53f8abfa3f2aa2ce9d732a9675338fd60ae7d61162e25db7cb08bf",
     "zh:19f7456b5a2ad16595860974714bfdb25b87bc16356ea9d5c7453892aaa27864",
@@ -71,6 +74,7 @@ provider "registry.opentofu.org/hashicorp/null" {
 provider "registry.opentofu.org/hashicorp/random" {
   version = "3.9.0"
   hashes = [
+    "h1:8EQU5KSxezcjo/phRSe69rDOI0lk4pSaggj7FsskYp8=",
     "h1:U8KXqGCoNI9/guYbTvzgdtVk3fRthoG0UXwm1JoEpIs=",
     "zh:03f1114cc20b8913523735ab76e0f0a2b16ce13c92923a53304bf85f07fc0dbc",
     "zh:105b678ee72322a3067f105d7e05e940f6143238f377f6e87ff4ec909246ac2a",
@@ -94,6 +98,7 @@ provider "registry.opentofu.org/hashicorp/vault" {
   version     = "4.5.0"
   constraints = "4.5.0"
   hashes = [
+    "h1:2zN1LdTCiEpE8QWTbIcA+SDIGBXI52mwFMmwupWjfhE=",
     "h1:KWtz/9RwY80JLQ18SFh6AesSKwgzm8LDGfwMz0kLbAY=",
     "zh:006189f781957a6128cfc71ea6e78015117dd8d618ca440a526feabf8168c708",
     "zh:01ea4b69af85ab3efaf07c94e716cfbea45c2c052fdfddbcf0194d28a8590d3f",
